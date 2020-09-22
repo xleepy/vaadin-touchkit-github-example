@@ -1,0 +1,90 @@
+.settings {
+    margin: 16px 16px 16px 16px !important;
+}
+
+.image-row {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.selected-item {
+  background-color: #e2e8f0;
+}
+
+.bar-menu {
+  display: flex !important;
+  justify-content: space-between !important;
+  flex-wrap: wrap !important;
+  margin: 0 !important;
+}
+
+.bar-menu .v-menubar-menuitem {
+    height:100%;
+    padding: 8px 16px 8px 16px !important;
+    margin: 5px 16px 5px 16px;
+    border: 1px solid #e2e8f0;
+    padding: 5px;
+    border-radius: 4px;
+    color: white;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    background-color: #000;
+}
+
+.repositories {
+    width: auto !important;
+}
+
+.profile-image {
+    max-width: 100% !important;
+    max-height: 100% !important;
+    width: auto !important;
+    height: auto !important;
+}
+
+.bar-menu .v-menubar-menuitem:active {
+  filter: drop-shadow(0 0 0 steelblue);
+  box-sizing: border-box;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+.item {
+   margin-right: 16px !important;
+}
+
+
+.form {
+    margin-right: 16px !important;
+    margin-left: 16px !important;
+}
+
+@media screen and (max-width: 700px) {
+    .bar-menu .v-menubar-menuitem {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+.user-profile {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    padding: 8px;
+}
+
+.basic-info {
+    flex: 1 1 0%;
+    margin-bottom: 16px;
+}
+
+.basic-info div {
+    margin-bottom: 8px;
+}
+
+.filePreview {
+word-break: break-all;
+display: flex;
+flex-direction: column;
+}
+
+
