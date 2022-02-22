@@ -44,22 +44,22 @@ public class MyServlet extends TouchKitServlet implements SessionInitListener, S
     public void sessionInit(SessionInitEvent event) {
         System.out.println("Loading " + event.getRequest().getPathInfo());
         event.getSession().addUIProvider(uiProvider);
-        // JETTY
-        try {
-            credentials.setClientId((String)readJNDI("client_id"));
-            credentials.setClientSecret((String) readJNDI("client_secret"));
-            credentials.setToken((String) readJNDI("token"));
-            System.out.println(readJNDI("client_id"));
-        } catch (NamingException e) {
-            e.printStackTrace();
-        }
-        // HEROKU
-        try{
-            credentials.setClientId(System.getenv("CLIENT_ID"));
-            credentials.setClientSecret(System.getenv("CLIENT_SECRET"));
-            credentials.setToken(System.getenv("TOKEN"));
-        }catch (Exception ex) {
-            ex.printStackTrace();
-        }
+//        // JETTY
+//        try {
+//            credentials.setClientId((String)readJNDI("client_id"));
+//            credentials.setClientSecret((String) readJNDI("client_secret"));
+//            credentials.setToken((String) readJNDI("token"));
+//            System.out.println(readJNDI("client_id"));
+//        } catch (NamingException e) {
+//            e.printStackTrace();
+//        }
+//        // HEROKU
+//        try{
+//            credentials.setClientId(System.getenv("CLIENT_ID"));
+//            credentials.setClientSecret(System.getenv("CLIENT_SECRET"));
+//            credentials.setToken(System.getenv("TOKEN"));
+//        }catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
     }
 }

@@ -15,38 +15,34 @@ import org.vaadin.touchkit.ui.*;
 
 @SuppressWarnings("serial")
 public class UserProfile extends MyNavigationView {
-
     private final UserStore userStore = new UserStore();
     private final RepositoriesStore repositoriesStore = new RepositoriesStore();
     private final String login;
-
     public UserProfile(String userLogin) {
         login = userLogin;
     }
 
-
+    private void createUserPreview(VerticalComponentGroup componentGroup, User user) {
+        componentGroup.addComponent(new MyBarMenu(
+                user,
+                getNavigationManager(),
+                userStore,
+                repositoriesStore
+        ));
+        componentGroup.addComponent(Helpers.createBasicInfoLayout(user));
+    }
     @Override
-    public void attach() {
-        super.attach();
+    protected void onBecomingVisible() {
+        super.onBecomingVisible();
         VerticalComponentGroup content = new VerticalComponentGroup();
         setContent(new CssLayout(content));
         Disposable disposable = userStore.loadUser(login)
                 .subscribeWith(new CallbackWrapper<User>()  {
-            @Override
-            public void onNext(@NonNull User user) {
-                getUI().access(() -> {
-                    content.addComponent(new MyBarMenu(
-                            user,
-                            getNavigationManager(),
-                            userStore,
-                            repositoriesStore
-                            )
-                    );
-                    content.addComponent(Helpers.createBasicInfoLayout(user));
+                    @Override
+                    public void onNext(@NonNull User user) {
+                        createUserPreview(content, user);
+                    }
                 });
-            }
-        });
         compositeDisposable.add(disposable);
     }
-
 }

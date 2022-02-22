@@ -23,5 +23,4 @@ public class UserStore {
     public Observable<List<User>> getFollowing(String userLogin) {
         return ClientAPI.getClientAPI().getFollowing(userLogin);
     }
-
 }

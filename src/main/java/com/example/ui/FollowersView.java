@@ -9,20 +9,27 @@ import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.*;
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
-import org.vaadin.touchkit.ui.NavigationView;
 import org.vaadin.touchkit.ui.VerticalComponentGroup;
 
 import java.util.List;
 
 public class FollowersView extends MyNavigationView {
     VerticalComponentGroup content = new VerticalComponentGroup();
+    private final Observable<List<User>> users;
 
     public FollowersView(String caption,Observable<List<User>> users) {
         setCaption(caption);
-        Disposable disposable = users.subscribeOn(Schedulers.io()).subscribeWith(new CallbackWrapper<List<User>>() {
+        setContent(content);
+        this.users = users;
+    }
+
+    @Override
+    protected void onBecomingVisible() {
+        super.onBecomingVisible();
+        System.out.println("here");
+        VerticalComponentGroup content = new VerticalComponentGroup();
+        Disposable disposable = users.subscribeWith(new CallbackWrapper<List<User>>() {
             @Override
             public void onNext(@NonNull List<User> followers) {
                 getUI().access(() -> {
@@ -33,9 +40,10 @@ public class FollowersView extends MyNavigationView {
             }
         });
         compositeDisposable.add(disposable);
-        setContent(content);
+        CssLayout cssLayout = new CssLayout(content);
+        cssLayout.setStyleName("form");
+        setContent(cssLayout);
     }
-
 
     private GridLayout createGridLayout(User follower){
         GridLayout grid = new GridLayout(1, 7);

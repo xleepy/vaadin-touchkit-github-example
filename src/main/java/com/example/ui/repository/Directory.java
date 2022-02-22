@@ -21,23 +21,31 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class Directory extends MyNavigationView {
     VerticalComponentGroup content = new VerticalComponentGroup();
+    private final String userLogin;
+    private final RepositoryDetailStore repositoryDetailStore;
+    private final Observable<List<File>> files;
+    private final String repositoryName;
     public Directory(String userLogin, String repositoryName, RepositoryDetailStore detailStore, Observable<List<File>> files) {
         setCaption(repositoryName);
-
+        this.userLogin = userLogin;
+        this.repositoryDetailStore = detailStore;
+        this.files = files;
+        this.repositoryName = repositoryName;
+    }
+    @Override
+    protected void onBecomingVisible() {
+        super.onBecomingVisible();
         Disposable disposable = files.subscribeWith(new CallbackWrapper<List<File>>() {
             @Override
             public void onNext(@NonNull List<File> files) {
                 for(File file : files ) {
-                    content.addComponent(createGridLayoutForFile(file, detailStore, repositoryName, userLogin));
+                    content.addComponent(createGridLayoutForFile(file, repositoryDetailStore, repositoryName, userLogin));
                 }
             }
         });
         compositeDisposable.add(disposable);
         setContent(content);
-
     }
-
-
     private GridLayout createGridLayoutForFile(File file, RepositoryDetailStore store, String repositoryName, String userLogin){
         GridLayout gridLayout = new GridLayout(1, 7);
         if ("file".equals(file.getType())) {
@@ -63,9 +71,7 @@ public class Directory extends MyNavigationView {
                         ));
             });
         }
-        gridLayout.addComponent(new Label("Name: " + file.getName()));
-        gridLayout.addComponent(new Label("Size: " + file.getSize()));
-        gridLayout.addComponent(new Label("Type: " + file.getType()));
+        gridLayout.addComponents(new Label("Name: " + file.getName()), new Label("Size: " + file.getSize()), new Label("Type: " + file.getType()));
         return gridLayout;
     }
 }
