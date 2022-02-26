@@ -6,10 +6,7 @@ import com.example.data.remote.stores.RepositoriesStore;
 import com.example.data.remote.stores.UserStore;
 import com.example.ui.Helpers;
 import com.example.ui.MyBarMenu;
-import com.example.utils.CallbackWrapper;
 import com.vaadin.ui.*;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
 import org.vaadin.touchkit.ui.*;
 
 
@@ -31,18 +28,15 @@ public class UserProfile extends MyNavigationView {
         ));
         componentGroup.addComponent(Helpers.createBasicInfoLayout(user));
     }
+
     @Override
-    protected void onBecomingVisible() {
-        super.onBecomingVisible();
+    public void attach() {
+        super.attach();
         VerticalComponentGroup content = new VerticalComponentGroup();
         setContent(new CssLayout(content));
-        Disposable disposable = userStore.loadUser(login)
-                .subscribeWith(new CallbackWrapper<User>()  {
-                    @Override
-                    public void onNext(@NonNull User user) {
-                        createUserPreview(content, user);
-                    }
-                });
-        compositeDisposable.add(disposable);
+        subscribe(userStore.loadUser(login), (user) -> {
+            createUserPreview(content, user);
+            return null;
+        });
     }
 }

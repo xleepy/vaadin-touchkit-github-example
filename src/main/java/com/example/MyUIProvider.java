@@ -14,13 +14,7 @@ public class MyUIProvider extends UIProvider {
         boolean mobileUserAgent = event.getRequest().getHeader("user-agent")
                 .toLowerCase().contains("mobile");
         boolean mobileParameter = event.getRequest().getParameter("mobile") != null;
-//        if(event.getRequest().getAttribute("login") == null) {
-//            return LoginView.class;
-//        }
         if (overrideMobileUA() || mobileUserAgent || mobileParameter) {
-//            if(event.getRequest().getAttribute("login") == null) {
-//                return LoginUI.class;
-//            }
             return MyTouchKitUI.class;
         } else {
             return MyFallbackUI.class;

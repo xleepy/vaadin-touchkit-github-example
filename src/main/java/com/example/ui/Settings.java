@@ -1,12 +1,8 @@
 package com.example.ui;
 
 import com.example.MyNavigationView;
-import com.example.data.remote.Credentials;
-import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.*;
 import org.vaadin.touchkit.ui.VerticalComponentGroup;
-
-import java.util.Base64;
 
 @SuppressWarnings("serial")
 public class Settings extends MyNavigationView {

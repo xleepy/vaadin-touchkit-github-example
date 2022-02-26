@@ -4,26 +4,22 @@ import com.example.MyNavigationView;
 import com.example.data.models.User;
 import com.example.data.remote.stores.UsersStore;
 import com.example.ui.user.UserProfile;
-import com.example.utils.CallbackWrapper;
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.*;
-import io.reactivex.disposables.Disposable;
 import org.vaadin.touchkit.ui.*;
-
-import java.util.List;
 
 @SuppressWarnings("serial")
 public class MenuView extends MyNavigationView {
     private final UsersStore usersStore = new UsersStore();
-    public MenuView()
-    {
+
+    public MenuView() {
         setCaption("Menu");
     }
 
     @Override
-    protected void onBecomingVisible() {
-        super.onBecomingVisible();
+    public void attach() {
+        super.attach();
         VerticalComponentGroup content = new VerticalComponentGroup();
         CssLayout cssLayout = new CssLayout(content);
         cssLayout.setStyleName("form");
@@ -37,22 +33,16 @@ public class MenuView extends MyNavigationView {
         grid.setColumns(3);
         grid.setWidth("100%");
         grid.setSpacing(true);
-
-        Disposable disposable = usersStore.getUsers().subscribeWith(new CallbackWrapper<List<User>>() {
-            @Override
-            public void onNext(List<User> users) {
-                getUI().access(() -> {
-                    for(User user : users) {
-                        grid.addComponent(createUserPreview(user));
-                    }
-                });
+        subscribe(usersStore.getUsers(), (users) -> {
+            for (User user : users) {
+                grid.addComponent(createUserPreview(user));
             }
+            return null;
         });
         content.addComponent(grid);
-        compositeDisposable.add(disposable);
     }
 
-    private VerticalLayout createUserPreview(User user){
+    private VerticalLayout createUserPreview(User user) {
         VerticalLayout verticalLayout = new VerticalLayout();
 
         Image avatar = new Image("User avatar", new ExternalResource(user.getAvatarUrl()));

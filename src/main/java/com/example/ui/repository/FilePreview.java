@@ -2,16 +2,7 @@ package com.example.ui.repository;
 
 import com.example.MyNavigationView;
 import com.example.data.remote.stores.file.FileStore;
-import com.example.utils.CallbackWrapper;
-import com.vaadin.server.StreamResource;
-import com.vaadin.ui.Image;
 import com.vaadin.ui.TextArea;
-
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
-import okhttp3.ResponseBody;
-
-
 
 public class FilePreview extends MyNavigationView {
     FileStore fileStore = new FileStore();
@@ -30,24 +21,18 @@ public class FilePreview extends MyNavigationView {
     }
 
     @Override
-    protected void onBecomingVisible() {
-        super.onBecomingVisible();
+    public void attach() {
+        super.attach();
         textArea.setSizeFull();
         textArea.setWordWrap(true);
         textArea.setReadOnly(true);
-        Disposable disposable = fileStore.loadFile(userName, repoName, path).subscribeOn(Schedulers.io()).subscribeWith(new CallbackWrapper<ResponseBody>() {
-            @Override
-            public void onNext(ResponseBody o) {
-                String fileContent = fileStore.readFile(o);
-                getUI().access(() -> {
-                    String[] rows = fileContent.split("\\n");
-                    textArea.setRows(rows.length);
-                    textArea.setValue(fileContent);
-
-                });
-            }
+        subscribe(fileStore.loadFile(userName, repoName, path), (body) -> {
+            String fileContent = fileStore.readFile(body);
+            String[] rows = fileContent.split("\\n");
+            textArea.setRows(rows.length);
+            textArea.setValue(fileContent);
+            return null;
         });
-        compositeDisposable.add(disposable);
         setContent(textArea);
     }
 }

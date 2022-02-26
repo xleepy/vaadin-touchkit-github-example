@@ -3,13 +3,10 @@ package com.example.ui;
 import com.example.MyNavigationView;
 import com.example.data.models.User;
 import com.example.ui.user.UserProfile;
-import com.example.utils.CallbackWrapper;
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.*;
 import io.reactivex.Observable;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
 import org.vaadin.touchkit.ui.VerticalComponentGroup;
 
 import java.util.List;
@@ -25,21 +22,15 @@ public class FollowersView extends MyNavigationView {
     }
 
     @Override
-    protected void onBecomingVisible() {
-        super.onBecomingVisible();
-        System.out.println("here");
+    public void attach() {
+        super.attach();
         VerticalComponentGroup content = new VerticalComponentGroup();
-        Disposable disposable = users.subscribeWith(new CallbackWrapper<List<User>>() {
-            @Override
-            public void onNext(@NonNull List<User> followers) {
-                getUI().access(() -> {
-                    for (User follower : followers) {
-                        content.addComponent(createGridLayout(follower));
-                    }
-                });
+        subscribe(users, (followers) -> {
+            for (User follower : followers) {
+                content.addComponent(createGridLayout(follower));
             }
+            return null;
         });
-        compositeDisposable.add(disposable);
         CssLayout cssLayout = new CssLayout(content);
         cssLayout.setStyleName("form");
         setContent(cssLayout);

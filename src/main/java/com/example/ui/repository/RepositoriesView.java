@@ -3,12 +3,10 @@ package com.example.ui.repository;
 import com.example.MyNavigationView;
 import com.example.data.models.repository.Repository;
 import com.example.data.remote.stores.RepositoryDetailStore;
-import com.example.utils.CallbackWrapper;
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.*;
 import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
 import org.vaadin.touchkit.ui.VerticalComponentGroup;
 
 import java.util.List;
@@ -16,27 +14,27 @@ import java.util.List;
 public class RepositoriesView extends MyNavigationView {
     private final RepositoryDetailStore store = new RepositoryDetailStore();
     private final Observable<List<Repository>> repositories;
-    public RepositoriesView(String caption , Observable<List<Repository>> loadedRepositories) {
+
+    public RepositoriesView(String caption, Observable<List<Repository>> loadedRepositories) {
         setCaption(caption);
         this.repositories = loadedRepositories;
     }
+
     @Override
-    protected void onBecomingVisible() {
-        super.onBecomingVisible();
+    public void attach() {
+        super.attach();
         VerticalComponentGroup content = new VerticalComponentGroup();
-        Disposable disposable = repositories.subscribeWith(new CallbackWrapper<List<Repository>>() {
-            @Override
-            public void onNext(List<Repository> repositories) {
-                for (Repository rep : repositories) {
-                    content.addComponent(createGridLayout(rep));
-                }
+        subscribe(repositories, (repositories) -> {
+            for (Repository rep : repositories) {
+                content.addComponent(createGridLayout(rep));
             }
+            return null;
         });
-        compositeDisposable.add(disposable);
         CssLayout cssLayout = new CssLayout(content);
         cssLayout.setStyleName("form");
         setContent(cssLayout);
     }
+
     private GridLayout createGridLayout(Repository rep) {
         GridLayout grid = new GridLayout(3, 7);
         grid.addComponent(new Label("Repository name: " + rep.getName()), 0, 0);
