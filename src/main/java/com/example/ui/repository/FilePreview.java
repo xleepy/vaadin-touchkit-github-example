@@ -3,6 +3,7 @@ package com.example.ui.repository;
 import com.example.MyNavigationView;
 import com.example.data.remote.stores.file.FileStore;
 import com.vaadin.ui.TextArea;
+import org.vaadin.touchkit.ui.VerticalComponentGroup;
 
 public class FilePreview extends MyNavigationView {
     FileStore fileStore = new FileStore();
@@ -13,7 +14,6 @@ public class FilePreview extends MyNavigationView {
 
     public FilePreview(String name, String userName, String repoName, String path) {
         setCaption(name);
-        setSizeFull();
         this.userName = userName;
         this.repoName = repoName;
         this.path = path;
@@ -23,16 +23,20 @@ public class FilePreview extends MyNavigationView {
     @Override
     public void attach() {
         super.attach();
-        textArea.setSizeFull();
+        VerticalComponentGroup group = new VerticalComponentGroup();
         textArea.setWordWrap(true);
         textArea.setReadOnly(true);
+        textArea.setSizeFull();
+
         subscribe(fileStore.loadFile(userName, repoName, path), (body) -> {
             String fileContent = fileStore.readFile(body);
-            String[] rows = fileContent.split("\\n");
-            textArea.setRows(rows.length);
             textArea.setValue(fileContent);
             return null;
         });
-        setContent(textArea);
+        group.setWidthUndefined();
+        group.setHeight("100%");
+        group.addStyleName("file-preview");
+        group.addComponent(textArea);
+        setContent(group);
     }
 }

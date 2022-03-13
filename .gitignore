@@ -7,5 +7,7 @@ target
 *.iml
 .idea
 .eclipse
+.env
+
 widgetsets
 jetty-env.xml

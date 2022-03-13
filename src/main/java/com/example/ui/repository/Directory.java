@@ -11,9 +11,6 @@ import org.vaadin.touchkit.ui.VerticalComponentGroup;
 
 import java.util.List;
 
-// TODO refactoring
-
-@SuppressWarnings("serial")
 public class Directory extends MyNavigationView {
     VerticalComponentGroup content = new VerticalComponentGroup();
     private final String userLogin;
@@ -27,12 +24,6 @@ public class Directory extends MyNavigationView {
         this.repositoryDetailStore = detailStore;
         this.files = files;
         this.repositoryName = repositoryName;
-    }
-
-    @Override
-    protected void onBecomingVisible() {
-        super.onBecomingVisible();
-
     }
 
     @Override

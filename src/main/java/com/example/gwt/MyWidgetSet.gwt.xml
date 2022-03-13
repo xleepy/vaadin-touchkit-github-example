@@ -15,11 +15,7 @@
     
 
     <inherits name="com.vaadin.DefaultWidgetSet" />
-    <set-configuration-property name="devModeRedirectEnabled" value="false" />
-    <add-linker name="xsiframe" />
-    
 
-    
 
     
 </module>

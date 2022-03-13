@@ -30,7 +30,7 @@ public class MenuView extends MyNavigationView {
         });
         content.addComponent(button);
         GridLayout grid = new GridLayout();
-        grid.setColumns(3);
+        grid.setColumns(2);
         grid.setWidth("100%");
         grid.setSpacing(true);
         subscribe(usersStore.getUsers(), (users) -> {
@@ -51,7 +51,10 @@ public class MenuView extends MyNavigationView {
 
         verticalLayout.addStyleName("grid-cell");
 
-        verticalLayout.addComponent(new Label("User name:  " + user.getLogin()));
+        Label userName = new Label("User name:  " + user.getLogin());
+        userName.setStyleName("label");
+
+        verticalLayout.addComponent(userName);
         verticalLayout.addComponent(avatar);
         verticalLayout.addLayoutClickListener((LayoutEvents.LayoutClickListener) layoutClickEvent -> {
             getNavigationManager().navigateTo(new UserProfile(user.getLogin()));

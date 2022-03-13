@@ -11,20 +11,9 @@ import java.util.List;
 
 public interface JsonAPI {
 
-    @GET("user")
-    Observable<User>getAuthenticatedUser(
-            @Header("Authorization") String AuthToken
-    );
-
     @GET("user/emails")
     List<Email>getUserEmail(
             @Header("Authorization") String AuthToken
-    );
-
-    @PATCH("user")
-    Observable<User> updateAuthenticatedUser(
-            @Header("Authorization") String AuthToken,
-            @Body String data
     );
 
     @GET("users")

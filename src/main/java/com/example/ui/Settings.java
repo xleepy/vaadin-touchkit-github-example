@@ -4,7 +4,6 @@ import com.example.MyNavigationView;
 import com.vaadin.ui.*;
 import org.vaadin.touchkit.ui.VerticalComponentGroup;
 
-@SuppressWarnings("serial")
 public class Settings extends MyNavigationView {
 
     public Settings() {
@@ -17,10 +16,9 @@ public class Settings extends MyNavigationView {
         VerticalComponentGroup content = new VerticalComponentGroup();
         Upload upload = new Upload("Upload it here", (Upload.Receiver) (filename, mimeType) -> null);
         upload.setImmediateMode(false);
-        Button logout = new Button("Reload ui");
+        content.addComponent(upload);
         CssLayout cssLayout = new CssLayout(content);
         cssLayout.setStyleName("settings");
-
         setContent(cssLayout);
     }
 

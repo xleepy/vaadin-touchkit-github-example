@@ -55,12 +55,6 @@
    margin-right: 16px !important;
 }
 
-
-.form {
-    margin-right: 16px !important;
-    margin-left: 16px !important;
-}
-
 @media screen and (max-width: 700px) {
     .bar-menu .v-menubar-menuitem {
         width: 100%;
@@ -83,5 +77,24 @@
 
 .basic-info div {
     margin-bottom: 8px;
+}
+
+.grid-cell {
+ padding: 1rem;
+ border: 1px solid #d0d7de;
+ border-radius: 6px;
+}
+
+.label {
+ white-space: pre-wrap !important;
+}
+
+.file-preview .v-touchkit-componentgroup-row {
+ height: 100%;
+ padding: 0;
+}
+
+.file-preview textarea {
+ padding: 1rem;
 }
 

@@ -24,22 +24,29 @@ public class FollowersView extends MyNavigationView {
     @Override
     public void attach() {
         super.attach();
-        VerticalComponentGroup content = new VerticalComponentGroup();
+        VerticalComponentGroup group = new VerticalComponentGroup();
+        GridLayout content = new GridLayout();
+        content.setColumns(2);
+        content.setWidth("100%");
+        content.setSpacing(true);
+        content.setMargin(true);
         subscribe(users, (followers) -> {
             for (User follower : followers) {
                 content.addComponent(createGridLayout(follower));
             }
             return null;
         });
-        CssLayout cssLayout = new CssLayout(content);
-        cssLayout.setStyleName("form");
-        setContent(cssLayout);
+        group.addComponent(content);
+        setContent(group);
+
     }
 
     private GridLayout createGridLayout(User follower){
         GridLayout grid = new GridLayout(1, 7);
         grid.setWidth("100%");
-        grid.addComponent(new Label("User name:  " + follower.getLogin()), 0, 0);
+        Label userName = new Label("User name:  " + follower.getLogin());
+        userName.setStyleName("label");
+        grid.addComponent(userName, 0, 0);
         grid.addLayoutClickListener((LayoutEvents.LayoutClickListener) layoutClickEvent -> {
             getNavigationManager().navigateTo(new UserProfile(follower.getLogin()));
         });
@@ -47,6 +54,7 @@ public class FollowersView extends MyNavigationView {
         avatar.setWidth("100px");
         avatar.setHeight("100px");
         grid.addComponent(avatar, 0, 6);
+        grid.addStyleName("grid-cell");
         return grid;
     }
 }

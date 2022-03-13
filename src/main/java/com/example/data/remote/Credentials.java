@@ -10,7 +10,7 @@ public class Credentials {
     public static final String MEDIA_TYPE = "github.v3; param=full; format=json";
 
     public static Credentials getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new Credentials();
         }
         return instance;

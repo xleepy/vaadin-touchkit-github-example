@@ -4,7 +4,7 @@ import com.example.ui.user.UserProfile;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickListener;
 import org.vaadin.touchkit.ui.*;
-@SuppressWarnings("serial")
+
 public class FormView extends NavigationView {
 
     FormView() {
@@ -17,7 +17,7 @@ public class FormView extends NavigationView {
         nameField.setPlaceholder("Enter user nickname... ");
 
         submitButton.addClickListener((ClickListener) event -> {
-            if(nameField.getValue() != null) {
+            if (nameField.getValue() != null) {
                 getNavigationManager().navigateTo(new UserProfile(nameField.getValue()));
             }
         });
